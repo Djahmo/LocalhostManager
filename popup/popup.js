@@ -88,16 +88,21 @@ const checkServerStatus = async (url) => {
 
 const renderServers = async () => {
   if (servers.length === 0) {
-    elements.serverList.innerHTML = `
-      <div class="empty-state">
-        <p>No registered servers</p>
-        <p style="font-size: 12px;">Click on "+ New" to add a server</p>
-      </div>
-    `;
+    const emptyDiv = document.createElement('div');
+    emptyDiv.className = 'empty-state';
+    const p1 = document.createElement('p');
+    p1.textContent = 'No registered servers';
+    const p2 = document.createElement('p');
+    p2.style.fontSize = '12px';
+    p2.textContent = 'Click on "+ New" to add a server';
+    emptyDiv.appendChild(p1);
+    emptyDiv.appendChild(p2);
+    elements.serverList.textContent = '';
+    elements.serverList.appendChild(emptyDiv);
     return;
   }
 
-  elements.serverList.innerHTML = '';
+  elements.serverList.textContent = '';
 
   for (const [index, server] of servers.entries()) {
     const item = document.createElement('div');
@@ -106,21 +111,43 @@ const renderServers = async () => {
     item.dataset.id = server.id;
     item.dataset.index = index;
 
-    item.innerHTML = `
-      <div class="server-info">
-        <div class="server-label">${server.label}</div>
-        <div class="server-url">${server.port}</div>
-      </div>
-      <div class="server-status" title="Unknown status"></div>
-      <div class="server-actions">
-        <button class="icon-btn open" title="Open">🌐</button>
-        <button class="icon-btn delete" title="Delete">🗑️</button>
-      </div>
-    `;
+    const serverInfo = document.createElement('div');
+    serverInfo.className = 'server-info';
 
-    const openBtn = item.querySelector('.open');
-    const deleteBtn = item.querySelector('.delete');
-    const statusDot = item.querySelector('.server-status');
+    const serverLabel = document.createElement('div');
+    serverLabel.className = 'server-label';
+    serverLabel.textContent = server.label;
+
+    const serverUrl = document.createElement('div');
+    serverUrl.className = 'server-url';
+    serverUrl.textContent = server.port;
+
+    serverInfo.appendChild(serverLabel);
+    serverInfo.appendChild(serverUrl);
+
+    const statusDot = document.createElement('div');
+    statusDot.className = 'server-status';
+    statusDot.title = 'Unknown status';
+
+    const serverActions = document.createElement('div');
+    serverActions.className = 'server-actions';
+
+    const openBtn = document.createElement('button');
+    openBtn.className = 'icon-btn open';
+    openBtn.title = 'Open';
+    openBtn.textContent = '🌐';
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'icon-btn delete';
+    deleteBtn.title = 'Delete';
+    deleteBtn.textContent = '🗑️';
+
+    serverActions.appendChild(openBtn);
+    serverActions.appendChild(deleteBtn);
+
+    item.appendChild(serverInfo);
+    item.appendChild(statusDot);
+    item.appendChild(serverActions);
 
     openBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -164,7 +191,7 @@ const hideJsonEditor = () => {
 const saveJsonEditor = () => {
   try {
     const parsed = JSON.parse(elements.jsonEditor.value);
-    
+
     if (!Array.isArray(parsed)) {
       alert('JSON must be an array');
       return;

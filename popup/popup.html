@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalhostManager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>LocalhostManager</h1>
+    </header>
+
+    <div id="formSection" class="form-section hidden">
+      <input 
+        type="text" 
+        id="hostInput" 
+        placeholder="localhost" 
+        value="localhost"
+        class="input-field"
+      >
+      
+      <div class="form-row">
+        <input 
+          type="text" 
+          id="labelInput" 
+          placeholder="Name (e.g., API Backend)" 
+          class="input-field"
+        >
+      </div>
+
+      <div class="form-row">
+        <input 
+          type="number" 
+          id="portInput" 
+          placeholder="Port (e.g., 3000)" 
+          class="input-field"
+          min="1"
+          max="65535"
+        >
+        
+        <label class="checkbox-label">
+          <input type="checkbox" id="httpsCheckbox">
+          <span>HTTPS</span>
+        </label>
+      </div>
+
+      <button id="addBtn" class="btn btn-primary">Add</button>
+    </div>
+
+    <div id="listSection" class="list-section">
+      <div class="list-header">
+        <h2>Registered Servers</h2>
+        <button id="showFormBtn" class="btn btn-secondary">+ New</button>
+      </div>
+      <div id="serverList" class="server-list"></div>
+    </div>
+
+    <div id="editorSection" class="editor-section hidden">
+      <div class="editor-header">
+        <h2>Edit JSON Configuration</h2>
+        <button id="closeEditorBtn" class="btn btn-small">✕</button>
+      </div>
+      <textarea id="jsonEditor" class="json-editor" spellcheck="false"></textarea>
+      <div class="editor-actions">
+        <button id="saveJsonBtn" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button id="editJsonBtn" class="btn btn-small">Edit JSON</button>
+      <button id="exportBtn" class="btn btn-small">Export</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
